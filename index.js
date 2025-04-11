@@ -39,12 +39,13 @@ io.on("connection",(socket)=>{
         const {sender,receiver, message} = data;
         const newMessage = new Messages({sender,receiver,message});
         await newMessage.save();
+
         socket.broadcast.emit("receive_message",data);
 
     });
 
     socket.on("disconnect",()=>{
-        console.log("User disconnected!",socket.io);
+        console.log("User disconnected!",socket.id);
     })
 
 });
@@ -78,10 +79,8 @@ app.get("/users",async(req,res)=>{
     }
 })
 
-
-
 const PORT = process.env.PORT || 5001;
 
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 })
